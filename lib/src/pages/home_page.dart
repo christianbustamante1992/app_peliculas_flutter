@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_swiper/flutter_swiper.dart';
+import 'package:peliculas/src/providers/pelicula_providers.dart';
+
+import 'package:peliculas/src/widgets/card_swiper_widget.dart';
+import 'package:peliculas/src/widgets/scroll_horizontal_widget.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({Key key}) : super(key: key);
+  final providersPeliculas = new PeliculaProvider();
 
   @override
   Widget build(BuildContext context) {
@@ -17,27 +20,52 @@ class HomePage extends StatelessWidget {
       ),
       body: Container(
         child: Column(
-          children: <Widget>[_renderCarrousel()],
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: <Widget>[
+            _renderCarrousel(),
+            _renderScrollHorizontal(context)
+          ],
         ),
       ),
     );
   }
 
   _renderCarrousel() {
-    return Container(
-      padding: EdgeInsets.only(top: 15.0),
-      width: double.infinity,
-      height: 300.0,
-      child: Swiper(
-        itemBuilder: (BuildContext context, int index) {
-          return new Image.network(
-            "http://via.placeholder.com/288x188",
-            fit: BoxFit.fill,
+    return FutureBuilder(
+      future: providersPeliculas.getEnCines(),
+      builder: (BuildContext context, AsyncSnapshot<List> snapshot) {
+        if (snapshot.hasData) {
+          return CardSwiper(data: snapshot.data);
+        } else {
+          return Container(
+            height: 400.0,
+            child: Center(
+              child: CircularProgressIndicator(),
+            ),
           );
-        },
-        itemCount: 10,
-        itemWidth: 200.0,
-        layout: SwiperLayout.STACK,
+        }
+      },
+    );
+  }
+
+  _renderScrollHorizontal(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      child: Column(
+        children: <Widget>[
+          Text('Populares', style: Theme.of(context).textTheme.subtitle1),
+          SizedBox(height: 5.0),
+          FutureBuilder(
+            future: providersPeliculas.getPopulares(),
+            builder: (BuildContext context, AsyncSnapshot<List> snapshot) {
+              if (snapshot.hasData) {
+                return ScrollHorizontal(data: snapshot.data);
+              } else {
+                return CircularProgressIndicator();
+              }
+            },
+          )
+        ],
       ),
     );
   }
