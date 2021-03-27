@@ -13,13 +13,13 @@ class ScrollHorizontal extends StatelessWidget {
     return Container(
       height: _screenSize.height * 0.2,
       child: PageView(
-        children: _renderCard(),
+        children: _renderCard(_screenSize),
         controller: PageController(initialPage: 1, viewportFraction: 0.3),
       ),
     );
   }
 
-  List<Widget> _renderCard() {
+  List<Widget> _renderCard(_screenSize) {
     return data.map((item) {
       return Container(
         margin: EdgeInsets.only(right: 15.0),
@@ -31,7 +31,7 @@ class ScrollHorizontal extends StatelessWidget {
                 placeholder: AssetImage('assets/img/loading.gif'),
                 image: NetworkImage(item.getPosterImg()),
                 fit: BoxFit.cover,
-                height: 160.0,
+                height: _screenSize.height * 0.17,
               ),
             ),
             Text(
