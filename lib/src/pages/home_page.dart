@@ -55,7 +55,8 @@ class HomePage extends StatelessWidget {
       width: double.infinity,
       child: Column(
         children: <Widget>[
-          Text('Populares', style: Theme.of(context).textTheme.subtitle1),
+          Text('Peliculas Populares',
+              style: Theme.of(context).textTheme.subtitle1),
           SizedBox(height: 5.0),
           FutureBuilder(
             future: providersPeliculas.getPopulares(),
