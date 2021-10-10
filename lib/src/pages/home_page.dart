@@ -22,7 +22,7 @@ class HomePage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
-            _renderCarrousel(),
+            _renderCarrousel(context),
             _renderScrollHorizontal(context)
           ],
         ),
@@ -30,7 +30,9 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  _renderCarrousel() {
+  _renderCarrousel(BuildContext context) {
+    final _screenSize = MediaQuery.of(context).size;
+
     return FutureBuilder(
       future: providersPeliculas.getEnCines(),
       builder: (BuildContext context, AsyncSnapshot<List> snapshot) {
@@ -38,7 +40,7 @@ class HomePage extends StatelessWidget {
           return CardSwiper(data: snapshot.data);
         } else {
           return Container(
-            height: 400.0,
+            height: _screenSize.height * 0.5,
             child: Center(
               child: CircularProgressIndicator(),
             ),

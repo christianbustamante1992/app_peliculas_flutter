@@ -22,7 +22,6 @@ class ScrollHorizontal extends StatelessWidget {
   List<Widget> _renderCard(_screenSize) {
     return data.map((item) {
       return Container(
-        margin: EdgeInsets.only(right: 15.0),
         child: Column(
           children: <Widget>[
             ClipRRect(
@@ -31,7 +30,7 @@ class ScrollHorizontal extends StatelessWidget {
                 placeholder: AssetImage('assets/img/loading.gif'),
                 image: NetworkImage(item.getPosterImg()),
                 fit: BoxFit.cover,
-                height: _screenSize.height * 0.17,
+                height: _screenSize.height * 0.16,
               ),
             ),
             Text(
